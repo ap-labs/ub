@@ -1,5 +1,7 @@
 # UB project
 
+![](https://github.com/ap-labs/ub/workflows/main/badge.svg)
+
 > **UB** means Unified Billing platform.
 
 ## Features
