@@ -11,9 +11,9 @@ public class SignUtil {
 
     /**
      * Implementation of signature algorithm as described in - https://oplata.tinkoff.ru/develop/api/request-sign/
-     * @param request
-     * @param password
-     * @return
+     * @param request - request JSON (as string) to evaluate signature
+     * @param password - additional password field (like API secret)
+     * @return - evaluated request signature
      */
     public static String sign(String request, String password) {
         try {
