@@ -10,7 +10,7 @@ import java.util.TreeMap;
 public class SignUtil {
 
     /**
-     *
+     * Implementation of signature algorithm as described in - https://oplata.tinkoff.ru/develop/api/request-sign/
      * @param request
      * @param password
      * @return
