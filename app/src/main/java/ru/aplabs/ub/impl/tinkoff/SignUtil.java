@@ -2,7 +2,7 @@ package ru.aplabs.ub.impl.tinkoff;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ru.aplabs.ub.Json;
+import ru.aplabs.ub.Utils;
 
 import java.security.MessageDigest;
 import java.util.TreeMap;
@@ -17,7 +17,7 @@ public class SignUtil {
      */
     public static String sign(String request, String password) {
         try {
-            ObjectMapper mapper = Json.mapper;
+            ObjectMapper mapper = Utils.INSTANCE.getMapper();
             final JsonNode node = mapper.readTree(request);
             TreeMap<String, String> fields = new TreeMap<>();
             node.fieldNames().forEachRemaining(n -> {

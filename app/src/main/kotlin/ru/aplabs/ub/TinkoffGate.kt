@@ -3,7 +3,9 @@ package ru.aplabs.ub
 import com.fasterxml.jackson.annotation.JsonProperty
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.lang.RuntimeException
+
 
 data class InitRequest(@JsonProperty("TerminalKey") val terminalKey: String,
                        @JsonProperty("Amount") val amount: Long,
@@ -65,15 +67,17 @@ class TinkoffGate {
     private val url = "https://securepay.tinkoff.ru/v2"
     private val client = OkHttpClient()
 
-    fun init() {
+    fun init(value: InitRequest): InitResponse {
         val request = Request.Builder()
                 .url("$url/Init")
+                .post(Utils.mapper.writeValueAsString(value).toRequestBody())
                 .build()
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
                 // log
+                throw RuntimeException("")
             }
-
+            return Utils.mapper.readValue(response.body!!.string(), InitResponse::class.java)
         }
     }
 
