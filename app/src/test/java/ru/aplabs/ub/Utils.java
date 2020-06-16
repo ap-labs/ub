@@ -7,10 +7,10 @@ import java.io.*;
 
 public class Utils {
 
-    private static Logger log = LoggerFactory.getLogger(Utils.class);
+    private static Logger log = LoggerFactory.getLogger(ru.aplabs.ub.util.Utils.class);
 
     public static String readFromClasspath(String path) {
-        InputStream s = Utils.class.getClassLoader().getResourceAsStream("classpath:" + path);
+        InputStream s = ru.aplabs.ub.util.Utils.class.getClassLoader().getResourceAsStream("classpath:" + path);
         if (s == null) {
             throw new IllegalArgumentException("Failed to find file at specified location");
         }

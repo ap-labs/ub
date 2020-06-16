@@ -2,7 +2,7 @@ package ru.aplabs.ub.impl.tinkoff;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ru.aplabs.ub.Utils;
+import ru.aplabs.ub.util.Utils;
 
 import java.security.MessageDigest;
 import java.util.TreeMap;

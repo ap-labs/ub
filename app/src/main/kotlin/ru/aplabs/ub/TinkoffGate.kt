@@ -4,15 +4,42 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import ru.aplabs.ub.util.Utils
+import ru.aplabs.ub.util.loggerFor
 import java.lang.RuntimeException
+import java.math.BigDecimal
+
+
+enum class TaxationSystems {
+    osn, usn_income, usn_income_outcome, patent, envd, esn
+}
+
+data class Receipt(@JsonProperty("Email") val email: String? = null,
+                   @JsonProperty("Phone") val phone: String? = null,
+                   @JsonProperty("Taxation") val taxation: TaxationSystems = TaxationSystems.usn_income,
+                   @JsonProperty("Items") val items: List<ReceiptItem> = listOf())
+
+data class ReceiptItem(@JsonProperty("Name") val name: String,
+                       @JsonProperty("Price") val price: Long,
+                       @JsonProperty("Quantity") val quantity: BigDecimal = BigDecimal.ONE,
+                       @JsonProperty("Amount") val amount: Long = quantity.multiply(BigDecimal.valueOf(price)).toLong(),
+                       @JsonProperty("PaymentMethod") val paymentMethod: String = "prepayment",
+                       @JsonProperty("PaymentObject") val paymentObject: String = "service",
+                       @JsonProperty("Tax") val tax: String = "none")
 
 
 data class InitRequest(@JsonProperty("TerminalKey") val terminalKey: String,
                        @JsonProperty("Amount") val amount: Long,
                        @JsonProperty("OrderId") val orderId: String,
+                       @JsonProperty("PayType") val payType: String = "O",
                        @JsonProperty("Description") val description: String = "",
-                       @JsonProperty("DATA") val data: Map<String, String> = mapOf())
-
+                       @JsonProperty("Recurrent") val recurrent: String? = null,
+                       @JsonProperty("CustomerKey") val customerKey: String? = null,
+                       @JsonProperty("SuccessURL") val successURL: String? = null,
+                       @JsonProperty("FailURL") val failURL: String? = null,
+                       @JsonProperty("Receipt") val receipt: Receipt? = null,
+                       @JsonProperty("DATA") val data: Map<String, String> = mapOf()) {
+}
 data class InitResponse(@JsonProperty("Success") val success: Boolean,
                         @JsonProperty("ErrorCode") val errorCode: String,
                         @JsonProperty("TerminalKey") val terminalKey: String,
@@ -33,9 +60,6 @@ data class GetStateResponse(@JsonProperty("Success") val success: Boolean,
                             @JsonProperty("Status") val status: Status,
                             @JsonProperty("PaymentId") val paymentId: String,
                             @JsonProperty("OrderId") val orderId: String)
-
-//data class CancelRequest()
-//data class CancelResponse()
 
 /**
  * Payment status def (see all descriptions in docs - https://oplata.tinkoff.ru/develop/api/payments/)
@@ -63,7 +87,11 @@ enum class Status {
 
 class TinkoffGate {
 
-    private val log = loggerFor<TinkoffGate>()
+}
+
+class TinkoffGateClient {
+
+    private val log = loggerFor<TinkoffGateClient>()
     private val url = "https://securepay.tinkoff.ru/v2"
     private val client = OkHttpClient()
 
@@ -83,9 +111,5 @@ class TinkoffGate {
 
     fun getState() {
 
-    }
-
-    fun cancel() {
-        // stub
     }
 }

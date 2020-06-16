@@ -8,10 +8,10 @@
 * Basic subscription / one-time payment management.
 * Detailed history of payments / actions. 
 * Trial management.
-* Tax reporting (target at this moment russian 54-FZ law).
+* Tax reporting (target at this moment only for russian 54-FZ law).
 
 ## Future planned features
-TODO 
+* Research & implement foreign
 
 ## How to extend & embed all of this stuff.
 TODO

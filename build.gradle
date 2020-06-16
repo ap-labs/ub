@@ -1,6 +1,0 @@
-buildscript {
-    ext {
-        kotlinVersion = '1.3.72'
-        grpcVersion = '1.28.1'
-    }
-}
