@@ -1,11 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    // TODO - setup ktlint!
+    // id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("com.palantir.docker") version "0.25.0"
-    id("com.revolut.jooq-docker") version "0.3.3"
+    id("com.revolut.jooq-docker") version "0.3.4"
 }
 
 group = "ru.aplabs.ub"
@@ -26,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.javalin:javalin:3.9.0")
+    implementation("io.javalin:javalin:3.9.1")
     implementation("com.squareup.okhttp3:okhttp:4.7.2")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.4")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.4")
@@ -52,13 +54,9 @@ tasks {
         excludeFlywayTable = true
         outputSchemaToDefault = setOf("ub")
         customizeGenerator {
-
+            // stub
         }
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
 
 tasks.withType<KotlinCompile> {

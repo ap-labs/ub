@@ -40,6 +40,7 @@ data class InitRequest(@JsonProperty("TerminalKey") val terminalKey: String,
                        @JsonProperty("Receipt") val receipt: Receipt? = null,
                        @JsonProperty("DATA") val data: Map<String, String> = mapOf()) {
 }
+
 data class InitResponse(@JsonProperty("Success") val success: Boolean,
                         @JsonProperty("ErrorCode") val errorCode: String,
                         @JsonProperty("TerminalKey") val terminalKey: String,
