@@ -8,10 +8,29 @@ plugins {
     // id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("com.palantir.docker") version "0.25.0"
     id("com.revolut.jooq-docker") version "0.3.4"
+    id("jacoco")
 }
 
 group = "ru.aplabs.ub"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
+
+tasks.getByName("jar") {
+    enabled = false
+}
+
+val uberJar = tasks.register<Jar>("uberJar") {
+    archiveFileName.set("app.jar")
+    manifest {
+        attributes("Main-Class" to "ru.aplabs.ub.AppKt")
+    }
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
+
+tasks.getByName("build").dependsOn(uberJar)
 
 sourceSets {
     main {
@@ -28,17 +47,19 @@ repositories {
 }
 
 dependencies {
+    project(":api")
     implementation("io.javalin:javalin:3.9.1")
     implementation("com.squareup.okhttp3:okhttp:4.7.2")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.4")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.4")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.4")
-    implementation("org.flywaydb:flyway-core:6.4.4")
+    implementation("org.flywaydb:flyway-core:6.5.0")
     implementation("com.zaxxer:HikariCP:3.4.5")
     implementation("org.postgresql:postgresql:42.2.14")
     implementation("org.jooq:jooq:3.13.2")
     jdbc("org.postgresql:postgresql:42.2.14")
     implementation("org.slf4j:slf4j-api:1.7.30")
+    implementation("ch.qos.logback:logback-classic:1.2.3")
     testImplementation("junit:junit:4.12")
     testImplementation("org.testcontainers:testcontainers:1.14.3")
     testImplementation("org.testcontainers:postgresql:1.14.3")

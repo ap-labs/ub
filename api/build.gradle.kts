@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.11.1")
     implementation("org.slf4j:slf4j-api:1.7.30")
     testImplementation("junit:junit:4.12")
 }

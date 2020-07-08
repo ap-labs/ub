@@ -1,7 +1,14 @@
 package ru.aplabs.ub.api;
 
-/**
- * UB client.
- */
-public class UB {
+import java.util.Collection;
+
+public interface UB {
+
+    void subscribe(Account account, Plan plan);
+
+    void unsubscribe(Account account);
+
+    Collection<Plan> plans();
+
+    Collection<PaymentItem> history();
 }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import org.flywaydb.core.Flyway
 import org.slf4j.LoggerFactory
 import javax.sql.DataSource
 
@@ -22,9 +23,21 @@ object Utils {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     }
 
-    fun ds(): DataSource {
+    fun dataSource(url: String = "jdbc:postgresql://localhost:5432/postgres",
+                   username: String = "postgres",
+                   password: String = "postgres",
+                   limit: Int = 5): DataSource {
         val config = HikariConfig()
-        val ds = HikariDataSource()
-        return ds
+        config.jdbcUrl = url
+        config.username = username
+        config.password = password
+        config.maximumPoolSize = limit
+        return HikariDataSource(config)
+    }
+
+    fun flyway(dataSource: DataSource): Flyway {
+        return Flyway.configure()
+                .dataSource(dataSource)
+                .load()
     }
 }
